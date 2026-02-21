@@ -37,7 +37,7 @@ class Sudoku :
                     print(self.grille[i][j], end = "   ")
             print()    
     
-    def ajout_des_trois(self):
+    def ajout(self):
         chiffres = random.randint(1, 9)
         for i in range(3):
             for j in range(3):
