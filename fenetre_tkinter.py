@@ -1,38 +1,18 @@
 import tkinter as tk
 
-couleur_fond = "black"
-couleur_text = "green"
-counter = 0
-
-
-def affichage():
-    global counter
-    counter += 1
-    label1.config(text="Cookie Clicker : " + str(counter))
-
-
 racine = tk.Tk()
 racine.title("Sudoku")
+racine.geometry("1200x700")
 
-#Texte : Titre
-label = tk.Label(racine, bg=couleur_fond, fg = couleur_text, text = "Un texte", font=("Helvetica", "28"), padx = 20, pady = 20, borderwidth= 5, relief= "groove")
-label.grid(column=0, row=0)
+canvas = tk.Canvas(racine, bg = "#000000", height=2800, width=2500)
+canvas.place(anchor='center')
 
-#Text : Cookie Clicker counter afficher
-label1 = tk.Label(racine, bg=couleur_fond, fg = couleur_text, text = "Cookie Clicker", font=("Helvetica", "28"), padx = 20, pady = 20)
-label1.grid(column=0, row=1)
-
-#Bouton : Cookie Clicker counter +1
-bouton = tk.Button(racine, text="Button", command = affichage, font = ("helvetica", "28"))
-bouton.grid(row=2, column=0)
-
-#Dessin : Rectangle
-canvas = tk.Canvas(racine, bg = "#6D9BB6", height=500, width=500)
-canvas.grid()
-
-#Dessin : Trait
-canvas.create_line((0,0), (200, 200), (200, 0), fill="blue", width = 5)
-canvas.grid()
-
+#
+# Image
+# https://stackoverflow.com/questions/3270209/how-do-i-make-tkinter-support-png-transparency
+#
+from PIL import ImageTk
+photoimage = ImageTk.PhotoImage(file="Medias\SVB Plays.png")
+canvas.create_image(1900, 1800, image=photoimage)
 
 racine.mainloop()
