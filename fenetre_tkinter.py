@@ -103,6 +103,8 @@ def intencite():            # Source : Mon talent
     logo = tk.PhotoImage(file='Medias/SVB Plays.png')
     logo = logo.subsample(12, 12)
     canvas.create_image(1100, 0, anchor="nw", image=logo) # Anchor >> _tkinter.TclError: bad anchor position "tkinter.NW": must be n, ne, e, se, s, sw, w, nw, or center
+    #appeler une fonction qui affiche les boutons
+
 
 canvas.pack()
 racine.after(100,intencite)
