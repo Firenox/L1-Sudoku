@@ -134,10 +134,16 @@ class Sudoku :
                 self.grille[i][j][k] = 0 
                 
         return False
-        
+
+"""     
 sudo = Sudoku()
 sudo.trois_case_en_diagonal()
 sudo.ajouter1(0,0,0)
-
 sudo.affichage()
+"""
 
+def generer_grille():
+    sudo = Sudoku()
+    sudo.trois_case_en_diagonal()
+    sudo.ajouter1(0, 0, 0)
+    return sudo.grille
