@@ -6,12 +6,12 @@ Pour ouvrir le jeu, il faut lancer ce programme.
 import fenetre_tkinter
 import sauvegardes
 import aide_au_jeu
-import traitements_matrice
+import generation_jeu_vide
 
 nombre_de_parties_jouees = 0
 meilleur_temps = 0.0
 
-print(traitements_matrice.matrice())
+print(generation_jeu_vide.matrice())
 
 
 fenetre_tkinter.lancer_fenetre_1()
