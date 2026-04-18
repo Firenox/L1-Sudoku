@@ -1,3 +1,8 @@
+'''
+Le programme suivant permet de générer la matrice du sudoku rempli et valide.
+'''
+
+
 
 import random
 
