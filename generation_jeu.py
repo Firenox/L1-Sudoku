@@ -140,6 +140,36 @@ class Sudoku :
                 
         return False
 
+
+    def difficulter(self):
+        difficulté = input("choisissez entre super easy, easy, normal, hard")
+        if difficulté == "super easy":
+            for i in range(2):
+                chiffres = random.randint(0, 2)
+                chiffres2 = random.randint(0, 2)
+                chiffres3 = random.randint(2, 7)
+                self.grille[chiffres][chiffres2][chiffres3] = 0
+        elif difficulté == "easy" :
+            for i in range(10):
+                chiffres = random.randint(0, 2)
+                chiffres2 = random.randint(0, 2)
+                chiffres3 = random.randint(0, 8)
+                self.grille[chiffres][chiffres2][chiffres3] = 0
+        elif difficulté == "normal" :
+            for i in range(20):
+                chiffres = random.randint(0, 2)
+                chiffres2 = random.randint(0, 2)
+                chiffres3 = random.randint(0, 8)
+                self.grille[chiffres][chiffres2][chiffres3] = 0
+        else : 
+            for i in range(30):
+                chiffres = random.randint(0, 2)
+                chiffres2 = random.randint(0, 2)
+                chiffres3 = random.randint(0, 8)
+                self.grille[chiffres][chiffres2][chiffres3] = 0
+        print(chiffres, chiffres ,chiffres2)
+
+
 """     
 sudo = Sudoku()
 sudo.trois_case_en_diagonal()
@@ -151,4 +181,6 @@ def generer_grille():
     sudo = Sudoku()
     sudo.trois_case_en_diagonal()
     sudo.ajouter1(0, 0, 0)
-    return sudo.grille
+    sudo.difficulter()
+    return sudo.affichage()
+generer_grille()
