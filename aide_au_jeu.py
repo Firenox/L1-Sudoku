@@ -5,9 +5,9 @@
 
 """
 2 option : 
-- un bouton aide avec lequel l'utilisateur interagie , il doit choisire une case avec lequelle il veut l'aide.
-- si l'utilisateur c'est trompée : on lui indique l'erreur ,on compte ces erreurs ,et on choisie 1 case 
-du bloc/colone/ligne de la case par lequelle on remplace par 1 des chiffres 
+- Un bouton aide avec lequel l'utilisateur interagie, il doit choisir une case avec laquelle il veut l'aide.
+- Si l'utilisateur s'est trompé : on lui indique l'erreur, on compte ces erreurs, et on choisi une case
+du bloc/colone/ligne de la case par laquelle on remplace par un des nombres 
 
 """
 
