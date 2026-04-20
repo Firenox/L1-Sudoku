@@ -1,11 +1,40 @@
 import tkinter as tk
 
-selected_cell = None   # permet des savoir/stocker les cases selectionner
+selected_cell = None   # permet de savoir/stocker les cases selectionner
 frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros pour les manipuler , faire appelle a cette fonction)
 
 def clear_window():    #permet la transition entre chaque fenêtre
     for widget in root.winfo_children():
         widget.destroy()
+
+def diff_Facile():
+    global diff 
+    diff = "Facile"
+
+def diff_Moyen():
+    global diff 
+    diff = "Moyen"
+
+def diff_Difficile():
+    global diff 
+    diff = "Difficile"
+
+def menu_difficulter():
+    clear_window()
+    
+    tk.Button(root,text="Facile",font=("Arial", 18, "bold"),
+              bg="#21F344",fg="white",
+              command=diff_Facile).place(x=255,y=225)
+
+    tk.Button(root,text="Moyen",font=("Arial", 18, "bold"),
+              bg="#F2FF00",fg="white",
+              command=diff_Moyen).place(x=250,y=300)
+
+    tk.Button(root,text="Difficile",font=("Arial", 18, "bold"),
+              bg="#B70C0C",fg="white",
+              command=diff_Moyen).place(x=245,y=375)
+    
+
 
 def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
     global selected_cell, frame_chiffres
@@ -19,7 +48,7 @@ def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
 
     cases = {}  
 
-    # on fait les ligne nois que en verticale
+    # on fait les ligne noirs que en verticale
     for i in range(10):
         epaisseur = 4 if i % 3 == 0 else 1  # NOUVEAU : lignes plus propres
         canvas.create_line(
@@ -136,17 +165,30 @@ def menu_principal():
 
     tk.Button(root, text="Jouer", font=("Arial", 18, "bold"),
               bg="#2196F3", fg="white",  
-              command=afficher_sudoku).pack(pady=20)
+              command=afficher_sudoku).pack(pady=10)
+
+    tk.Button(root,text="Charger",font=("Arial", 18, "bold"),
+              bg="#16f154",fg="white").pack(pady=10)
+    
+    tk.Button(root,text="Difficulter",font=("Arial", 18, "bold"),
+              bg="#f1169d",fg="white",
+              command=menu_difficulter).pack(pady=10)
 
     tk.Button(root, text="Quitter", font=("Arial", 18, "bold"),
               bg="#f44336", fg="white",  
               command=root.quit).pack(pady=10)
+    
 
 
-root = tk.Tk()
-root.title("Sudoku")
-root.geometry("600x750") 
+def execution_graphique() :
+    global root
+    root = tk.Tk()
+    root.title("Sudoku")
+    root.geometry("600x750") 
 
-menu_principal()
+    menu_principal()
 
-root.mainloop()
+    root.mainloop()
+
+execution_graphique()
+print("essai")
