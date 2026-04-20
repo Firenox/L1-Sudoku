@@ -181,6 +181,6 @@ def generer_grille():
     sudo = Sudoku()
     sudo.trois_case_en_diagonal()
     sudo.ajouter1(0, 0, 0)
-    sudo.difficulter()
-    return sudo.affichage()
+
+    return sudo.grille
 generer_grille()
