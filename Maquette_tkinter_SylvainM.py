@@ -118,13 +118,10 @@ def afficher_sudoku(): # Affichage du sudoku (prototype, V2, avec les lignes)
                 relief="sunken" 
             )
             
-            # Sauvegarde dans la matrice
-            # print(c) = bouton_(entre 1 et 83)
-            # On cherche la valeur v de selected_cell
+            # Sauvegarde dans la matrice, v = bouton_(entre 1 et 83). On cherche la valeur c de selected_cell
             for c, v in cases.items():
                 if v == selected_cell:
                     etat_de_jeu.matrice[1][c[0]][c[1]] = valeur
-
             # On ne fait pas matrice = etat_de_jeu.matrice[1] pour que ça soit à jour pour tous les autres fichiers
 
         selected_cell = None
@@ -191,16 +188,14 @@ def menu_principal():
               bg="#f44336", fg="white",  
               command=root.quit).pack(pady=10)
     
-    print("oui")
-    print(etat_de_jeu.matrice)
-
+# Eviter les répétitions   
 def fond():
     global bg 
     bg = PhotoImage(file = "Medias/fond_1.png")
     label1 = Label(root, image = bg)
     label1.image = bg
     label1.place(x=0, y=0, relwidth=1, relheight=1)
-    label1.lower()  # Envoie le fond à l'arrière-plan
+    label1.lower(belowThis=None) # Source https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/universal.html
 
 def execution_graphique() :
     global root
