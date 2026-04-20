@@ -183,4 +183,3 @@ def generer_grille():
     sudo.ajouter1(0, 0, 0)
 
     return sudo.grille
-generer_grille()

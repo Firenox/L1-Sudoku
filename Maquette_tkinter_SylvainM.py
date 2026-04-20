@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import PhotoImage, Label
 
 selected_cell = None   # permet de savoir/stocker les cases selectionner
 frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros pour les manipuler , faire appelle a cette fonction)
@@ -157,6 +158,10 @@ def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
 # affiche le menu principale (partiellement complet , manque bouton paramètre et peux être une interface plus styliser)
 def menu_principal():
     clear_window()
+    bg = PhotoImage(file = "Medias/fond_1.png")
+    label1 = Label(root, image = bg)
+    label1.image = bg
+    label1.place(x=0, y=0, relwidth=1, relheight=1)
 
     titre = tk.Label(root, text="SUDOKU", font=("Arial", 40, "bold"))  # NOUVEAU : plus gros
     titre.pack(pady=50)
@@ -184,11 +189,7 @@ def execution_graphique() :
     global root
     root = tk.Tk()
     root.title("Sudoku")
-    root.geometry("600x750") 
+    root.geometry("1200x700") 
 
     menu_principal()
-
     root.mainloop()
-
-execution_graphique()
-print("essai")

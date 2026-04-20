@@ -1,16 +1,10 @@
+'''
+Fichier principal reliant tous les autres fichiers.
+Pour ouvrir le jeu, il faut lancer ce programme.
+'''
+import etat_de_jeu
 import fenetre_tkinter
-import generation_jeu
-import sauvegardes
-import conversion_matrice
-import aide_au_jeu
-import generation_jeu_vide
 
-nombre_de_parties_jouees = 0
-meilleur_temps = 0.0
-
-matrice=(generation_jeu_vide.matrice())
-
-def executer():
-    fenetre_tkinter.lancer_fenetre_1()
-
+# Créer la matrice une seule fois
+etat_de_jeu.creer_matrice(1)
 fenetre_tkinter.lancer_fenetre_1()

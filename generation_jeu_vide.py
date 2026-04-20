@@ -76,7 +76,7 @@ def matrice_valide(matrice):
 def x_y_to_valeur(x,y,valeur, matrice): #On place la valeur dans la liste
     matrice[3*(y//3)+(x//3)][3*(y%3)+(x%3)] = valeur
 
-def matrice():
+def matrice(niveau):
     matrice_temp1 = (generation_jeu.generer_grille())
     # On passe en une liste de sous listes # Note : essayer de faire sans
     matrice_temp2=[matrice_temp1[i][j] for i in range(3) for j in range(3)]
@@ -85,4 +85,4 @@ def matrice():
     for i in range(9):
         for j in range(9):
             x_y_to_valeur(j, i, matrice_temp2[i][j], matrice)
-    return((matrice,matrice_jeu(matrice, 1)))
+    return (matrice, matrice_jeu(matrice, niveau))
