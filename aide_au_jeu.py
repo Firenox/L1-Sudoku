@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Ici, on créer une "IA" qui aide le joueur quand il en a besoin
 #Si un nombre est trouvable de manière logique : On essaye de l'expliquer
 
@@ -10,3 +11,9 @@ du bloc/colone/ligne de la case par lequelle on remplace par 1 des chiffres
 
 
 """
+=======
+'''
+Ici, on créer une "IA" qui aide le joueur quand il en a besoin
+Si un nombre est trouvable de manière logique : On essaye de l'expliquer
+'''
+>>>>>>> ec4ec2270f2e8178d5987fa28d6c1b6bb70b20c3

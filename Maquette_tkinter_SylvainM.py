@@ -191,3 +191,4 @@ def execution_graphique() :
     root.mainloop()
 
 execution_graphique()
+print("essai")
