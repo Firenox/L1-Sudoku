@@ -9,11 +9,11 @@ from random import randint
 def matrice_jeu(matrice, niveau):
     matrice2 = [v[:] for v in matrice]
     if niveau == 1:
-        n = 40
-    if niveau == 2:
         n = 35
-    if niveau == 3:
+    if niveau == 2:
         n = 30
+    if niveau == 3:
+        n = 25
 
     i = 0
     while i != n:
@@ -69,8 +69,8 @@ def matrice_valide(matrice):
                     valeur += 1
                 if valeur > 8 :
                     return False
-                compteur +=1
-    return compteur==1
+                
+    return True
 
 
 def x_y_to_valeur(x,y,valeur, matrice): #On place la valeur dans la liste
@@ -78,14 +78,11 @@ def x_y_to_valeur(x,y,valeur, matrice): #On place la valeur dans la liste
 
 def matrice():
     matrice_temp1 = (generation_jeu.generer_grille())
-    print(matrice_temp1)
     # On passe en une liste de sous listes # Note : essayer de faire sans
     matrice_temp2=[matrice_temp1[i][j] for i in range(3) for j in range(3)]
-
     # On pace en listes de sous listes mais dans un ordre plus simple avec (x, y)
     matrice = [['']*9 for i in range(9)]
     for i in range(9):
         for j in range(9):
             x_y_to_valeur(j, i, matrice_temp2[i][j], matrice)
-    
-    return((matrice, matrice_jeu(matrice, 1)))
+    return((matrice,matrice_jeu(matrice, 1)))
