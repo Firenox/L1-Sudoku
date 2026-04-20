@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage, Label
+import etat_de_jeu
 
 selected_cell = None   # permet de savoir/stocker les cases selectionner
 frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros pour les manipuler , faire appelle a cette fonction)
@@ -37,12 +38,14 @@ def menu_difficulter():
     
 
 
-def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
+def afficher_sudoku(): # Affichage du sudoku (prototype, V2, avec les lignes)
     global selected_cell, frame_chiffres
     clear_window()
 
     taille_case = 60 
     canvas_size = taille_case * 9
+
+    fond()
 
     canvas = tk.Canvas(root, width=canvas_size, height=canvas_size, bg="white", highlightthickness=0)  # NOUVEAU : canvas propre
     canvas.pack(pady=20)
@@ -114,6 +117,15 @@ def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
                 bg="#d3d3d3",   
                 relief="sunken" 
             )
+            
+            # Sauvegarde dans la matrice
+            # print(c) = bouton_(entre 1 et 83)
+            # On cherche la valeur v de selected_cell
+            for c, v in cases.items():
+                if v == selected_cell:
+                    etat_de_jeu.matrice[1][c[0]][c[1]] = valeur
+
+            # On ne fait pas matrice = etat_de_jeu.matrice[1] pour que ça soit à jour pour tous les autres fichiers
 
         selected_cell = None
 
@@ -126,7 +138,7 @@ def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
         for col in range(9):
             case = tk.Button(   # il s'agie d'un façon plus avancée du bouton que avant 
                 root,
-                text="",
+                text=etat_de_jeu.matrice[1][row][col],
                 font=("Arial", 18, "bold"),
                 width=2,
                 height=1,
@@ -158,11 +170,7 @@ def afficher_sudoku(): #affichage du sudoku ( prototype, V2 , avec les ligne )
 # affiche le menu principale (partiellement complet , manque bouton paramètre et peux être une interface plus styliser)
 def menu_principal():
     clear_window()
-    bg = PhotoImage(file = "Medias/fond_1.png")
-    label1 = Label(root, image = bg)
-    label1.image = bg
-    label1.place(x=0, y=0, relwidth=1, relheight=1)
-
+    fond()
     titre = tk.Label(root, text="SUDOKU", font=("Arial", 40, "bold"))  # NOUVEAU : plus gros
     titre.pack(pady=50)
 
@@ -183,13 +191,22 @@ def menu_principal():
               bg="#f44336", fg="white",  
               command=root.quit).pack(pady=10)
     
+    print("oui")
+    print(etat_de_jeu.matrice)
 
+def fond():
+    global bg 
+    bg = PhotoImage(file = "Medias/fond_1.png")
+    label1 = Label(root, image = bg)
+    label1.image = bg
+    label1.place(x=0, y=0, relwidth=1, relheight=1)
+    label1.lower()  # Envoie le fond à l'arrière-plan
 
 def execution_graphique() :
     global root
     root = tk.Tk()
     root.title("Sudoku")
-    root.geometry("1200x700") 
+    root.geometry("1200x750") 
 
     menu_principal()
     root.mainloop()
