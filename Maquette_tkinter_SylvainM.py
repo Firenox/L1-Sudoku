@@ -35,13 +35,14 @@ def menu_difficulter():
     tk.Button(root,text="Difficile",font=("Arial", 18, "bold"),
               bg="#B70C0C",fg="white",
               command=diff_Moyen).place(x=245,y=375)
-    
 
 
 def afficher_sudoku(): # Affichage du sudoku (prototype, V2, avec les lignes)
     global selected_cell, frame_chiffres
     clear_window()
 
+    etat_de_jeu.creer_matrice(1)
+    
     taille_case = 60 
     canvas_size = taille_case * 9
 

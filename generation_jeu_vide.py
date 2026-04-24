@@ -31,9 +31,8 @@ def matrice_jeu(matrice, niveau):
 Avant de supprimer une valeur avec matrice_jeu(), il faut vérifier que le Sudoku
 est toujours faisable et qu'il y a uniquement une seule solution,
 pour ne pas avoir de fausses mauvaisses réponses.
-
-A FINIR
 '''
+
 
 # Cette fonction vérifie que la case 
 def entre_valide(matrice, i, j, valeur):
@@ -58,23 +57,39 @@ def entre_valide(matrice, i, j, valeur):
 
 
 # Cette fonction est importante pour compter le nombre de solutions possibles
+# Récurrence qui vérifie toutes les branches et compte le nombre de branches valides
+# Revient en arrière avec : matrice3[i][j] = ""
 def matrice_valide(matrice):
+    global compteur
     compteur = 0
-    matrice3 = [v[:] for v in matrice]
-    for i in range(9):
-        for j in range(9):
-            if matrice3[i][j] == "":
-                valeur = 0
-                while entre_valide(matrice3, i ,j, valeur) == False and valeur < 9:
-                    valeur += 1
-                if valeur > 8 :
-                    return False
-                
-    return True
+    matrice3 = [v[:] for v in matrice] # Crée une copie
+
+    def verif_recur(matrice3):
+        global compteur
+        if compteur > 1 :
+            return False
+
+        for i in range(9):
+            for j in range(9):
+                if matrice3[i][j] == "":
+
+                    for valeur in range(1, 10):
+                        if entre_valide(matrice3, i ,j, valeur):
+                            matrice3[i][j] = valeur
+                            verif_recur(matrice3)
+                            matrice3[i][j] = ""
+                    return None
+
+        # Aucune case vide trouvée
+        compteur += 1
+
+    verif_recur(matrice3)
+    return compteur == 1
 
 
 def x_y_to_valeur(x,y,valeur, matrice): #On place la valeur dans la liste
     matrice[3*(y//3)+(x//3)][3*(y%3)+(x%3)] = valeur
+
 
 def matrice(niveau):
     matrice_temp1 = (generation_jeu.generer_grille())

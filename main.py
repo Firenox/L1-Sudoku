@@ -6,5 +6,4 @@ import etat_de_jeu
 import fenetre_tkinter
 
 # Créer la matrice une seule fois
-etat_de_jeu.creer_matrice(1)
 fenetre_tkinter.lancer_fenetre_1()
