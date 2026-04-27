@@ -8,13 +8,7 @@ from random import randint
 
 def matrice_jeu(matrice, niveau):
     matrice2 = [v[:] for v in matrice]
-    if niveau == 1:
-        n = 35
-    if niveau == 2:
-        n = 30
-    if niveau == 3:
-        n = 25
-
+    n = 20+5*niveau
     i = 0
     while i != n:
         a, b = randint(0,8), randint(0,8)

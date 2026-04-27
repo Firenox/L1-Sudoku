@@ -123,7 +123,7 @@ def afficher_sudoku(): # Affichage du sudoku (prototype, V2, avec les lignes)
             for c, v in cases.items():
                 if v == selected_cell:
                     etat_de_jeu.matrice[1][c[0]][c[1]] = valeur
-            # On ne fait pas matrice = etat_de_jeu.matrice[1] pour que ça soit à jour pour tous les autres fichiers
+            # On mets à jour etat_de_jeu.matrice[1] pour que ça soit à jour pour tous les autres fichiers
 
         selected_cell = None
 
