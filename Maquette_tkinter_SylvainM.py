@@ -213,3 +213,4 @@ def execution_graphique() :
     menu_principal()
     root.mainloop()
 
+execution_graphique()
