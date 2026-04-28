@@ -23,39 +23,45 @@ def diff_Difficile():
 
 def menu_difficulter():
     clear_window()
-    
+    fond()
+
+    tk.Label(root, text="Choisir la difficulté", font=("Arial", 30, "bold")).pack(pady=50)
+
+    #la  partie ajouter de la nouvelle version 
+
     tk.Button(root,text="Facile",font=("Arial", 18, "bold"),
               bg="#21F344",fg="white",
-              command=diff_Facile).place(x=255,y=225)
+              command=lambda: lancer_sudoku(1)).pack(pady=10)
 
     tk.Button(root,text="Moyen",font=("Arial", 18, "bold"),
-              bg="#F2FF00",fg="white",
-              command=diff_Moyen).place(x=250,y=300)
+              bg="#F2FF00",fg="black",
+              command=lambda: lancer_sudoku(2)).pack(pady=10)
 
     tk.Button(root,text="Difficile",font=("Arial", 18, "bold"),
               bg="#B70C0C",fg="white",
-              command=diff_Moyen).place(x=245,y=375)
+              command=lambda: lancer_sudoku(3)).pack(pady=10)
+
+    tk.Button(root, text="Retour", command=menu_principal).pack(pady=20)
 
 
 def afficher_sudoku(): # Affichage du sudoku (prototype, V2, avec les lignes)
     global selected_cell, frame_chiffres
     clear_window()
 
-    etat_de_jeu.creer_matrice(1)
     
     taille_case = 60 
     canvas_size = taille_case * 9
 
     fond()
 
-    canvas = tk.Canvas(root, width=canvas_size, height=canvas_size, bg="white", highlightthickness=0)  # NOUVEAU : canvas propre
+    canvas = tk.Canvas(root, width=canvas_size, height=canvas_size, bg="white", highlightthickness=0)  #canvas propre
     canvas.pack(pady=20)
 
     cases = {}  
 
     # on fait les ligne noirs que en verticale
     for i in range(10):
-        epaisseur = 4 if i % 3 == 0 else 1  # NOUVEAU : lignes plus propres
+        epaisseur = 4 if i % 3 == 0 else 1  #lignes plus propres
         canvas.create_line(
             i * taille_case, 0,
             i * taille_case, 9 * taille_case,
@@ -175,19 +181,19 @@ def menu_principal():
     #on a colorée les bouton affin que l'interface sois plus styliser , il manque encore le bouton parametre et l'arrière plan a faire
 
     tk.Button(root, text="Jouer", font=("Arial", 18, "bold"),
-              bg="#2196F3", fg="white",  
-              command=afficher_sudoku).pack(pady=10)
+          bg="#2196F3", fg="white",  
+          command=menu_difficulter).pack(pady=10)
 
     tk.Button(root,text="Charger",font=("Arial", 18, "bold"),
               bg="#16f154",fg="white").pack(pady=10)
-    
-    tk.Button(root,text="Difficulter",font=("Arial", 18, "bold"),
-              bg="#f1169d",fg="white",
-              command=menu_difficulter).pack(pady=10)
 
     tk.Button(root, text="Quitter", font=("Arial", 18, "bold"),
               bg="#f44336", fg="white",  
               command=root.quit).pack(pady=10)
+    
+def lancer_sudoku(niveau):
+    etat_de_jeu.creer_matrice(niveau)  #cette partie j'ai un doute car c'est avec ce que tu ma demandée
+    afficher_sudoku()
     
 # Eviter les répétitions   
 def fond():
@@ -206,3 +212,4 @@ def execution_graphique() :
 
     menu_principal()
     root.mainloop()
+
