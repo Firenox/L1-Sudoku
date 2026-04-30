@@ -2,20 +2,17 @@
 Ici, on créer une "IA" qui aide le joueur quand il en a besoin.
 Si un nombre est trouvable de manière logique : On essaye de l'expliquer.
 
-2 option : 
-- Un bouton aide avec lequel l'utilisateur interagie, il doit choisir une case avec laquelle il veut l'aide.
-- Si l'utilisateur s'est trompé : on lui indique l'erreur, on compte ces erreurs, et on choisi une case
-du bloc/colone/ligne de la case par laquelle on remplace par un des nombres.
-
-Ici, on créer une "IA" qui aide le joueur quand il en a besoin.
-Si un nombre est trouvable de manière logique : On essaye de l'expliquer.
+2 options : 
+- Aide normal: qui donne au hasard un nombre d'une case vide dans le sudoku 
+- Aide puissant: qui donne tout les emplacements d'un chiffre demander dans la matrice
 '''
 
 import random
 # on utilise etat_de_jeu.matrice au lieu de main.matrice :
 import etat_de_jeu 
 print(etat_de_jeu.matrice)
-def aide(sudo):
+
+def aide_normal(sudo):
     case_vide = []
     for i in range(9):
         for j in range(9):
