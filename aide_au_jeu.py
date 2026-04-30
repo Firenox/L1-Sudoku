@@ -10,6 +10,7 @@ Si un nombre est trouvable de manière logique : On essaye de l'expliquer.
 import random
 # on utilise etat_de_jeu.matrice au lieu de main.matrice :
 import etat_de_jeu 
+etat_de_jeu.creer_matrice(1)
 print(etat_de_jeu.matrice)
 
 def aide_normal(sudo):
@@ -26,3 +27,4 @@ def aide_fort(sudo, nombre):
         for j in range(9):
             if sudo[1][i][j] == nombre:
                 sudo[1][i][j] = sudo[0][i][j]
+
