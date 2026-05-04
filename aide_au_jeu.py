@@ -10,9 +10,6 @@ Si un nombre est trouvable de manière logique : On essaye de l'expliquer.
 import random
 # on utilise etat_de_jeu.matrice au lieu de main.matrice :
 import etat_de_jeu 
-etat_de_jeu.creer_matrice(1)
-print(etat_de_jeu.matrice)
-
 def aide_normal(sudo):
     case_vide = []
     for i in range(9):
