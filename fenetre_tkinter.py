@@ -1,4 +1,9 @@
 '''
+Animation d'ouverture
+Programme non essentiel au fonctionnement du jeu.
+Dans le main on peut remplacer l'execution de ce programme par :
+Maquette_tkinter_SylvainM.execution_graphique()
+
 Placer image avec PhotoImage pour permettre superposition
 https://openclassrooms.com/forum/sujet/creation-plusieurs-images-dans-tkinter-1
  
@@ -10,7 +15,6 @@ https://stackoverflow.com/questions/3177969/how-to-resize-an-image-using-tkinter
 
 On utilise .place pour mettre des widgets les uns sur les autres
 '''
-
 
 import tkinter as tk
 

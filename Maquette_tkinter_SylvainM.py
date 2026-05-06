@@ -1,3 +1,9 @@
+'''
+Fenêtre du Sudoku
+'''
+
+import time # Source :https://docs.python.org/fr/3.8/library/time.html#time.time
+global heure_debut
 
 import tkinter as tk
 from tkinter import PhotoImage, Label
@@ -11,9 +17,11 @@ frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros
 
 diff = "Moyen"
 
+
 def clear_window():    #permet la transition entre chaque fenêtre
     for widget in root.winfo_children():
         widget.destroy()
+
 
 def fond():
     global bg 
@@ -21,7 +29,7 @@ def fond():
     label1 = Label(root, image=bg)
     label1.image = bg
     label1.place(x=0, y=0, relwidth=1, relheight=1)
-    label1.lower(belowThis=None)
+    label1.lower(belowThis=None) # Source https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/universal.html
 
 
 def menu_principal():
@@ -66,12 +74,16 @@ def menu_difficulter():
 
 
 def lancer_sudoku(niveau):
-    global solution, grille, diff
+    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur
 
     etat_de_jeu.creer_matrice(niveau)
+    nombre_erreur = 0
 
+    matrice_originale = etat_de_jeu.matrice[1]
     solution = etat_de_jeu.matrice[0]
     grille = etat_de_jeu.matrice[1]
+
+    heure_debut = time.time()
 
     if niveau == 1:
         diff = "Facile"
@@ -120,7 +132,6 @@ def afficher_sudoku():
 
         frame_chiffres = tk.Frame(root, bg="#f0f0f0")
         frame_chiffres.pack(pady=10)
-
         for i in range(1, 10):
             tk.Button(
                 frame_chiffres,
@@ -146,7 +157,7 @@ def afficher_sudoku():
 
 
     def choisir_chiffre(valeur):
-        global selected_cell, frame_chiffres
+        global selected_cell, frame_chiffres, nombre_erreur
 
         if not selected_cell:
             return
@@ -161,6 +172,7 @@ def afficher_sudoku():
                 case.config(bg="lightgreen")
             else:
                 case.config(bg="red")
+                nombre_erreur += 1
 
         elif diff == "Moyen":
             case.config(bg="white")
@@ -223,13 +235,33 @@ def valeur_correcte(row, col, valeur):
     return valeur == solution[row][col]
 
 
+def sauvegarde_jeu():
+    global nombre_erreur, temps
+    pass
+
+
 def victoire():
+    global heure_debut, temps
+
     clear_window()
     fond()
 
     tk.Label(root, text="VICTOIRE !",
              font=("Arial", 40, "bold"),
              fg="green").pack(pady=50)
+
+    temps = int(time.time() - heure_debut) # heure actuelle moins le début
+
+    tk.Label(root, text=f"Temps passé : {temps//60} minute{"s" if temps//60 > 1 else ''} et {temps%59} seconde{"s" if temps%59 > 1 else ""}", # Source du if et else : https://www.datacamp.com/tutorial/python-f-string | Aussi très intuitif
+             font=("Arial", 20, "bold"),
+             fg="green").pack()
+
+    tk.Label(root, text=f"Nombre d'erreurs : {nombre_erreur}",
+             font=("Arial", 20, "bold"),
+             fg="green").pack()
+
+    tk.Button(root, text="Sauvegarder le jeu",
+              command=sauvegarde_jeu).pack(pady=20)
 
     tk.Button(root, text="Retour menu",
               command=menu_principal).pack(pady=20)
@@ -243,6 +275,3 @@ def execution_graphique():
 
     menu_principal()
     root.mainloop()
-
-
-execution_graphique()
