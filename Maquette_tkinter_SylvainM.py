@@ -183,6 +183,7 @@ def afficher_sudoku():
         elif diff == "Moyen":
             case.config(bg="white")
 
+        
         if grille_complete():
             if grille_correcte():
                 victoire()
@@ -230,14 +231,46 @@ def afficher_sudoku():
     ).pack(pady=11)
 
     tk.Button(
-        root,
-        text="Aide_forte",
-        command=lambda: [
-            aide_au_jeu.aide_fort(etat_de_jeu.matrice, 1),
-            afficher_sudoku()
-        ]
+    root,
+    text="Aide_forte",
+    command=ouvrir_aide_forte
     ).pack(pady=12)
 
+
+
+def ouvrir_aide_forte():
+
+    fenetre = tk.Toplevel(root)
+    fenetre.title("Choisir un chiffre")
+
+    tk.Label(
+        fenetre,
+        text="Choisir un chiffre",
+        font=("Arial", 18, "bold")
+    ).pack(pady=10)
+
+    frame = tk.Frame(fenetre)
+    frame.pack(pady=10)
+
+    for i in range(1, 10):
+
+        tk.Button(
+            frame,
+            text=str(i),
+            font=("Arial", 16, "bold"),
+            width=3,
+
+            command=lambda v=i: choisir_aide_forte(v, fenetre)
+
+        ).grid(row=0, column=i-1, padx=4)
+
+def choisir_aide_forte(nombre, fenetre):
+
+    aide_au_jeu.aide_fort(etat_de_jeu.matrice, nombre)
+
+    fenetre.destroy()
+
+    afficher_sudoku()
 
 def grille_complete():
     for i in range(9):
