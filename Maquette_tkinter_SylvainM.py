@@ -8,6 +8,7 @@ global heure_debut
 import tkinter as tk
 from tkinter import PhotoImage, Label
 import etat_de_jeu
+import aide_au_jeu
 
 cases = {}
 solution = None
@@ -167,6 +168,11 @@ def afficher_sudoku():
         case.config(text=str(valeur))
         grille[row][col] = valeur
 
+        if diff == "Difficile":
+            if not valeur_correcte(row, col, valeur):
+                defaite()
+                return
+
         if diff == "Facile":
             if valeur_correcte(row, col, valeur):
                 case.config(bg="lightgreen")
@@ -213,6 +219,24 @@ def afficher_sudoku():
 
     tk.Button(root, text="Retour menu",
               command=menu_principal).pack(pady=10)
+    
+    tk.Button(
+    root,
+    text="Aide_normal",
+    command=lambda: [
+        aide_au_jeu.aide_normal(etat_de_jeu.matrice),
+        afficher_sudoku()
+        ]
+    ).pack(pady=11)
+
+    tk.Button(
+        root,
+        text="Aide_forte",
+        command=lambda: [
+            aide_au_jeu.aide_fort(etat_de_jeu.matrice, 1),
+            afficher_sudoku()
+        ]
+    ).pack(pady=12)
 
 
 def grille_complete():
@@ -239,6 +263,29 @@ def sauvegarde_jeu():
     global nombre_erreur, temps
     pass
 
+def defaite():
+    clear_window()
+    fond()
+
+    tk.Label(
+        root,
+        text="PERDU !",
+        font=("Arial", 40, "bold"),
+        fg="red"
+    ).pack(pady=50)
+
+    tk.Label(
+        root,
+        text="Vous avez fait une erreur en mode difficile",
+        font=("Arial", 20)
+    ).pack(pady=20)
+
+    tk.Button(
+        root,
+        text="Retour menu",
+        command=menu_principal
+    ).pack(pady=20)
+
 
 def victoire():
     global heure_debut, temps
@@ -252,9 +299,12 @@ def victoire():
 
     temps = int(time.time() - heure_debut) # heure actuelle moins le début
 
-    tk.Label(root, text=f"Temps passé : {temps//60} minute{"s" if temps//60 > 1 else ''} et {temps%59} seconde{"s" if temps%59 > 1 else ""}", # Source du if et else : https://www.datacamp.com/tutorial/python-f-string | Aussi très intuitif
-             font=("Arial", 20, "bold"),
-             fg="green").pack()
+    tk.Label(
+    root,
+    text=f"Temps passé : {temps//60} minute{'s' if temps//60 > 1 else ''} et {temps%59} seconde{'s' if temps%59 > 1 else ''}", # Source du if et else : https://www.datacamp.com/tutorial/python-f-string | Aussi très intuitif
+    font=("Arial", 20, "bold"),
+    fg="green"
+    ).pack()
 
     tk.Label(root, text=f"Nombre d'erreurs : {nombre_erreur}",
              font=("Arial", 20, "bold"),
@@ -275,3 +325,5 @@ def execution_graphique():
 
     menu_principal()
     root.mainloop()
+
+execution_graphique()
