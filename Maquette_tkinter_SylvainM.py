@@ -4,12 +4,13 @@ Fenêtre du Sudoku
 
 import time # Source :https://docs.python.org/fr/3.8/library/time.html#time.time
 global heure_debut
-
 import tkinter as tk
 from tkinter import PhotoImage, Label
 import etat_de_jeu
 import aide_au_jeu
 
+
+compteur_aide = 0
 cases = {}
 solution = None
 grille = None
@@ -75,10 +76,11 @@ def menu_difficulter():
 
 
 def lancer_sudoku(niveau):
-    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur
+    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide
 
     etat_de_jeu.creer_matrice(niveau)
     nombre_erreur = 0
+    compteur_aide = 0
 
     matrice_originale = etat_de_jeu.matrice[1]
     solution = etat_de_jeu.matrice[0]
@@ -217,6 +219,13 @@ def afficher_sudoku():
 
             cases[(row, col)] = case
 
+    tk.Label(
+    root,
+    text=f"Aides utilisées : {compteur_aide}",
+    font=("Arial", 16, "bold"),
+    bg="white",
+    fg="blue"
+    ).pack(pady=5)
 
     tk.Button(root, text="Retour menu",
               command=menu_principal).pack(pady=10)
@@ -225,10 +234,12 @@ def afficher_sudoku():
     root,
     text="Aide_normal",
     command=lambda: [
+        utiliser_aide(),
         aide_au_jeu.aide_normal(etat_de_jeu.matrice),
-        afficher_sudoku()
+        afficher_sudoku(),
+        victoire() if grille_complete() and grille_correcte() else None
         ]
-    ).pack(pady=11)
+        ).pack(pady=11)
 
     tk.Button(
     root,
@@ -236,7 +247,10 @@ def afficher_sudoku():
     command=ouvrir_aide_forte
     ).pack(pady=12)
 
+def utiliser_aide():
+    global compteur_aide
 
+    compteur_aide += 1
 
 def ouvrir_aide_forte():
 
@@ -266,11 +280,16 @@ def ouvrir_aide_forte():
 
 def choisir_aide_forte(nombre, fenetre):
 
+    utiliser_aide()
+
     aide_au_jeu.aide_fort(etat_de_jeu.matrice, nombre)
 
     fenetre.destroy()
 
     afficher_sudoku()
+
+    if grille_complete() and grille_correcte():
+        victoire()
 
 def grille_complete():
     for i in range(9):
@@ -325,6 +344,13 @@ def victoire():
 
     clear_window()
     fond()
+
+    tk.Label(
+    root,
+    text=f"Nombre d'aides utilisées : {compteur_aide}",
+    font=("Arial", 20, "bold"),
+    fg="blue"
+     ).pack()
 
     tk.Label(root, text="VICTOIRE !",
              font=("Arial", 40, "bold"),

@@ -28,6 +28,6 @@ def aide_fort(sudo, nombre):
     for i in range(9):
         for j in range(9):
 
-            # révèle toutes les cases contenant ce nombre
+            # montre toute les cases du nombres
             if sudo[0][i][j] == nombre:
                 sudo[1][i][j] = sudo[0][i][j]
