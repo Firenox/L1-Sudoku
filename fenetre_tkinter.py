@@ -28,23 +28,6 @@ def lancer_fenetre_1():
     fond = tk.PhotoImage(file="Medias/fond_1.png")
     fond_id = canvas.create_image(0, 0, image=fond, anchor='nw')
 
-    # Objectif | Faire apparaître le menu après l'annimation de lancement
-    def apparition_menu1():
-        global logo, bouton_jouer_id
-
-        # Logo en haut à droite
-        logo = tk.PhotoImage(file='Medias/SVB Plays.png')
-        logo = logo.subsample(12, 12)
-        canvas.create_image(1100, 0, anchor="nw", image=logo) #Anchor >> _tkinter.TclError: bad anchor position "tkinter.NW": must be n, ne, e, se, s, sw, w, nw, or center
-        
-        # Texte d'essai
-        titre = tk.Label(racine, bg="Green", text = "Sudoku",  font=("Helvetica", "50"))
-        titre.place(x=480, y=50)
-
-        # Bouton d'essai
-        bouton_jouer = tk.Button(racine, bg="Green", text = "Jouer", font=("Helvetica", "20"), command=apparition_menu_choix)
-        bouton_jouer_id = bouton_jouer.place(x=500, y=300)
-
 
     # En lien avec la fonction animation_logo_ouverture
     # Faire apparaître 13 fois l'image avec 10% d'opcaité pour faire un fondu

@@ -20,6 +20,7 @@ selected_cell = None   # permet de savoir/stocker les cases selectionner
 frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros pour les manipuler , faire appelle a cette fonction)
 temps = 0
 fini = False
+jeu_importe = None
 
 diff = "Moyen"
 
@@ -43,6 +44,8 @@ def fond():
 
 
 def menu_principal():
+    global fini
+    fini = None
     clear_window()
     fond()
 
@@ -62,6 +65,10 @@ def menu_principal():
 
 
 def menu_difficulter():
+    # On annule jeu_importee pour générer une nouvelle matrice
+    global jeu_importe
+    jeu_importe = None
+
     clear_window()
     fond()
 
@@ -84,14 +91,15 @@ def menu_difficulter():
 
 
 def lancer_sudoku(niveau):  
-    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide, temps
+    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide, temps, jeu_importe
 
-    etat_de_jeu.creer_matrice(niveau)
-    nombre_erreur = 0
-    compteur_aide = 0
-    temps = 0
+    if jeu_importe == None :
+        etat_de_jeu.creer_matrice(niveau)
+        nombre_erreur = 0
+        compteur_aide = 0
+        temps = 0
+        matrice_originale = [v[:] for v in etat_de_jeu.matrice[1]] # Copie sans le problème avec la mémoire
 
-    matrice_originale = etat_de_jeu.matrice[1]
     solution = etat_de_jeu.matrice[0]
     grille = etat_de_jeu.matrice[1]
 
@@ -325,15 +333,30 @@ def valeur_correcte(row, col, valeur):
 
 def sauvegarde_jeu():
     global nombre_erreur, temps, compteur_aide, matrice_originale, fini
-
     if fini == False :
         temps += int(time.time() - heure_debut)
     sauvegardes.sauvegarder(nombre_erreur, compteur_aide, temps, matrice_originale, fini)
 
 def importer_jeu():
+    global jeu_importe, nombre_erreur, temps, compteur_aide, matrice_originale, fini, heure_debut
     heure_debut = time.time()
-    global nombre_erreur, temps, compteur_aide, matrice_originale
-    liste = sauvegardes.ouvrir()
+    jeu_importe = sauvegardes.ouvrir()
+
+    etat_de_jeu.creer_matrice(1) # On crée le tuple matrice pour pouvoir le remplacer avec les lignes du dessous
+    if jeu_importe[6] == True : # Si on a sauvegardé une matrice finie
+        etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[5])
+
+    else :                      # Sinon, on recommence et on créer un nouveau tuple
+        etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[1]) # Le premier = matrice originale
+
+    nombre_erreur = jeu_importe[2]
+    compteur_aide = jeu_importe[3]
+    temps = jeu_importe[4]
+    matrice_originale = jeu_importe[5]
+    fini = False
+
+    lancer_sudoku(1)
+
 
 def defaite():
     clear_window()
