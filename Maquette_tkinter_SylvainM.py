@@ -1,5 +1,7 @@
 '''
 Fenêtre du Sudoku
+Code majoritairement fait par Sylvain
+Code par Vahé: le fond, la sauvegarde et l'importation, et correction de codes pas vérifiés et non fonctionnels
 '''
 
 import time # Utilisé pour chronomètre, Source :https://docs.python.org/fr/3.8/library/time.html#time.time
@@ -45,7 +47,7 @@ def fond():
 
 def menu_principal():
     global fini
-    fini = None
+    fini = False
     clear_window()
     fond()
 
@@ -120,7 +122,7 @@ def afficher_sudoku():
 
     clear_window()
 
-    taille_case = 60
+    taille_case = 50
     canvas_size = taille_case * 9
 
     fond()
@@ -242,10 +244,9 @@ def afficher_sudoku():
     font=("Arial", 16, "bold"),
     bg="white",
     fg="blue"
-    ).pack(pady=5)
+    ).pack()
 
-    tk.Button(root, text="Retour menu",
-              command=menu_principal).pack(pady=1)
+    tk.Button(root, text="Retour menu", command=menu_principal).pack()
     
     tk.Button(
     root,
@@ -256,16 +257,16 @@ def afficher_sudoku():
         afficher_sudoku(),
         victoire() if grille_complete() and grille_correcte() else None
         ]
-        ).pack(pady=1)
+        ).pack()
 
     tk.Button(
     root,
     text="Aide_forte",
     command=ouvrir_aide_forte
-    ).pack(pady=1)
+    ).pack()
 
     save = tk.Button(root, text="Sauvegarder", command=sauvegarde_jeu)
-    save.pack(pady=1)
+    save.pack()
 
 def utiliser_aide():
     global compteur_aide
@@ -281,7 +282,7 @@ def ouvrir_aide_forte():
         fenetre,
         text="Choisir un chiffre",
         font=("Arial", 18, "bold")
-    ).pack(pady=10)
+    ).pack()
 
     frame = tk.Frame(fenetre)
     frame.pack(pady=10)
@@ -423,5 +424,3 @@ def execution_graphique():
 
     menu_principal()
     root.mainloop()
-
-execution_graphique()
