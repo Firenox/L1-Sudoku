@@ -20,7 +20,6 @@ def aide_normal():
                 case_vide.append((i,j))
     
     i = random.randint(0, len(case_vide) -1)
-    print(case_vide)
     etat_de_jeu.matrice[1][case_vide[i][0]][case_vide[i][1]] == etat_de_jeu.matrice[0][case_vide[i][0]][case_vide[i][1]]
     
     etat_de_jeu.matrice[1][i][j] = etat_de_jeu.matrice[0][i][j]
@@ -29,7 +28,6 @@ def aide_normal():
 #Aide fort: qui donne tout les emplacements d'un chiffre demander dans la matrice
 def aide_fort():
     nombre = random.randint(1, 9)
-    print(nombre)
     for i in range(9):
         for j in range(9):
             if etat_de_jeu.matrice[0][i][j] == nombre:
