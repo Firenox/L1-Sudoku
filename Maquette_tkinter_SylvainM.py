@@ -2,13 +2,15 @@
 Fenêtre du Sudoku
 '''
 
-import time # Source :https://docs.python.org/fr/3.8/library/time.html#time.time
-global heure_debut
+import time # Utilisé pour chronomètre, Source :https://docs.python.org/fr/3.8/library/time.html#time.time
 import tkinter as tk
 from tkinter import PhotoImage, Label
+
 import etat_de_jeu
 import aide_au_jeu
+import sauvegardes
 
+global heure_debut
 
 compteur_aide = 0
 cases = {}
@@ -16,6 +18,8 @@ solution = None
 grille = None
 selected_cell = None   # permet de savoir/stocker les cases selectionner
 frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros pour les manipuler , faire appelle a cette fonction)
+temps = 0
+fini = False
 
 diff = "Moyen"
 
@@ -26,11 +30,15 @@ def clear_window():    #permet la transition entre chaque fenêtre
 
 
 def fond():
-    global bg 
+    global bg
     bg = PhotoImage(file="Medias/fond_1.png")
+
+    # Seul moyen trouvé pour zoomer un peu dans Pillow
+    bg = bg.zoom(6,6)
+    bg = bg.subsample(5, 5) # Contraire du zoom
     label1 = Label(root, image=bg)
     label1.image = bg
-    label1.place(x=0, y=0, relwidth=1, relheight=1)
+    label1.place(x=-5, y=0) # Éviter bord blanc à gauche : x = -5
     label1.lower(belowThis=None) # Source https://anzeljg.github.io/rin2/book2/2405/docs/tkinter/universal.html
 
 
@@ -46,7 +54,7 @@ def menu_principal():
               command=menu_difficulter).pack(pady=10)
 
     tk.Button(root, text="Charger", font=("Arial", 18, "bold"),
-              bg="#16f154", fg="white").pack(pady=10)
+              bg="#16f154", fg="white", command=importer_jeu).pack(pady=10)
 
     tk.Button(root, text="Quitter", font=("Arial", 18, "bold"),
               bg="#f44336", fg="white",
@@ -75,12 +83,13 @@ def menu_difficulter():
     tk.Button(root, text="Retour", command=menu_principal).pack(pady=20)
 
 
-def lancer_sudoku(niveau):
-    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide
+def lancer_sudoku(niveau):  
+    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide, temps
 
     etat_de_jeu.creer_matrice(niveau)
     nombre_erreur = 0
     compteur_aide = 0
+    temps = 0
 
     matrice_originale = etat_de_jeu.matrice[1]
     solution = etat_de_jeu.matrice[0]
@@ -228,24 +237,27 @@ def afficher_sudoku():
     ).pack(pady=5)
 
     tk.Button(root, text="Retour menu",
-              command=menu_principal).pack(pady=10)
+              command=menu_principal).pack(pady=1)
     
     tk.Button(
     root,
     text="Aide_normal",
     command=lambda: [
         utiliser_aide(),
-        aide_au_jeu.aide_normal(etat_de_jeu.matrice),
+        aide_au_jeu.aide_normal(),
         afficher_sudoku(),
         victoire() if grille_complete() and grille_correcte() else None
         ]
-        ).pack(pady=11)
+        ).pack(pady=1)
 
     tk.Button(
     root,
     text="Aide_forte",
     command=ouvrir_aide_forte
-    ).pack(pady=12)
+    ).pack(pady=1)
+
+    save = tk.Button(root, text="Sauvegarder", command=sauvegarde_jeu)
+    save.pack(pady=1)
 
 def utiliser_aide():
     global compteur_aide
@@ -282,7 +294,7 @@ def choisir_aide_forte(nombre, fenetre):
 
     utiliser_aide()
 
-    aide_au_jeu.aide_fort(etat_de_jeu.matrice, nombre)
+    aide_au_jeu.aide_fort(nombre)
 
     fenetre.destroy()
 
@@ -312,8 +324,16 @@ def valeur_correcte(row, col, valeur):
 
 
 def sauvegarde_jeu():
-    global nombre_erreur, temps
-    pass
+    global nombre_erreur, temps, compteur_aide, matrice_originale, fini
+
+    if fini == False :
+        temps += int(time.time() - heure_debut)
+    sauvegardes.sauvegarder(nombre_erreur, compteur_aide, temps, matrice_originale, fini)
+
+def importer_jeu():
+    heure_debut = time.time()
+    global nombre_erreur, temps, compteur_aide, matrice_originale
+    liste = sauvegardes.ouvrir()
 
 def defaite():
     clear_window()
@@ -340,27 +360,20 @@ def defaite():
 
 
 def victoire():
-    global heure_debut, temps
-
+    global heure_debut, temps, fini
+    fini = True
     clear_window()
     fond()
-
-    tk.Label(
-    root,
-    text=f"Nombre d'aides utilisées : {compteur_aide}",
-    font=("Arial", 20, "bold"),
-    fg="blue"
-     ).pack()
 
     tk.Label(root, text="VICTOIRE !",
              font=("Arial", 40, "bold"),
              fg="green").pack(pady=50)
 
-    temps = int(time.time() - heure_debut) # heure actuelle moins le début
+    temps += int(time.time() - heure_debut) # heure actuelle moins le début
 
     tk.Label(
     root,
-    text=f"Temps passé : {temps//60} minute{'s' if temps//60 > 1 else ''} et {temps%59} seconde{'s' if temps%59 > 1 else ''}", # Source du if et else : https://www.datacamp.com/tutorial/python-f-string | Aussi très intuitif
+    text=f"Temps passé : {temps//60} minute{'s' if temps//60 > 1 else ''} et {temps%60} seconde{'s' if temps%60 > 1 else ''}", # Source du if et else : https://www.datacamp.com/tutorial/python-f-string | Aussi très intuitif
     font=("Arial", 20, "bold"),
     fg="green"
     ).pack()
@@ -368,6 +381,9 @@ def victoire():
     tk.Label(root, text=f"Nombre d'erreurs : {nombre_erreur}",
              font=("Arial", 20, "bold"),
              fg="green").pack()
+
+
+    tk.Label(root, text=f"Nombre d'aides utilisées : {compteur_aide}", font=("Arial", 20, "bold"), fg="green").pack()
 
     tk.Button(root, text="Sauvegarder le jeu",
               command=sauvegarde_jeu).pack(pady=20)
@@ -380,7 +396,7 @@ def execution_graphique():
     global root
     root = tk.Tk()
     root.title("Sudoku")
-    root.geometry("1200x750")
+    root.geometry("1350x800")
 
     menu_principal()
     root.mainloop()
