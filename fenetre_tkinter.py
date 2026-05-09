@@ -1,13 +1,13 @@
 '''
-Animation d'ouverture
-Programme non essentiel au fonctionnement du jeu.
+Animation d'ouverture, programme non essentiel au fonctionnement du jeu
 Dans le main on peut remplacer l'execution de ce programme par :
 Maquette_tkinter_SylvainM.execution_graphique()
 
+Sources :
 Placer image avec PhotoImage pour permettre superposition
 https://openclassrooms.com/forum/sujet/creation-plusieurs-images-dans-tkinter-1
  
-Enregistrer dans une variable 'canvas.create_image(...)' ou 'bouton_jouer.place(x=500, y=300)' pour pouvoir la supprimer avec canvas.delete(la variable)
+Pouvoir supprimer image avec canvas.delete(la variable)
 https://stackoverflow.com/questions/68121138/python-tkinter-canvas-delete
 
 Réduire taille image
@@ -23,14 +23,11 @@ def lancer_fenetre_1():
     racine.title("Sudoku")
     racine.geometry("1200x700")
 
-
     canvas = tk.Canvas(racine, width=1200, height=700, bg="black")
     fond = tk.PhotoImage(file="Medias/fond_1.png")
     fond_id = canvas.create_image(0, 0, image=fond, anchor='nw')
 
 
-    # En lien avec la fonction animation_logo_ouverture
-    # Faire apparaître 13 fois l'image avec 10% d'opcaité pour faire un fondu
     def apparition_13x(image):
         id_image = []
         for i in range(13):
@@ -40,12 +37,9 @@ def lancer_fenetre_1():
         return id_image
 
 
-    # Objectif | Ouverture programme : Annimation introduction
-    # Solution la plus facile mais sûrement pas la meilleure :
     # Chaque lettres sont à 10% d'opcacité, on en fait apparaître 15 à la suite pour faire un fondu
-    # Le jeu n'est pas impacté par cette fonction, on peut donc la retirer à tout moment
     def animation_logo_ouverture():
-        global listes_id # Obligatoire pour faire apparaître le logo
+        global listes_id
         racine.after(100)
 
         # Images S, V, B et Plays à 10% d'opcacité
@@ -72,5 +66,5 @@ def lancer_fenetre_1():
         Maquette_tkinter_SylvainM.execution_graphique()
 
     canvas.pack()
-    racine.after(100,animation_logo_ouverture)
+    animation_logo_ouverture()
     racine.mainloop()

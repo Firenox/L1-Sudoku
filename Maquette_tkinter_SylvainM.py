@@ -340,7 +340,6 @@ def sauvegarde_jeu():
 
 def importer_jeu():
     global jeu_importe, nombre_erreur, temps, compteur_aide, matrice_originale, fini, heure_debut
-    heure_debut = time.time()
     jeu_importe = sauvegardes.ouvrir()
 
     etat_de_jeu.creer_matrice(1) # On crée le tuple matrice pour pouvoir le remplacer avec les lignes du dessous

@@ -1,11 +1,15 @@
 '''
-Le programme ci dessou permet de générer la matrice du sudoku remplie et valide,
+Le programme ci dessou permet de générer la matrice du sudoku à moitié remplie et toujours valide,
 à partir de la matrice de generation_jeu.py.
+
+Avant de supprimer une valeur avec matrice_jeu(), il faut vérifier que le Sudoku
+est toujours faisable et qu'il y a uniquement une seule solution,
+pour ne pas avoir de fausses mauvaisses réponses.
 '''
 import generation_jeu
 from random import randint
 
-
+# On cache des valeures pour le Sudoku
 def matrice_jeu(matrice, niveau):
     matrice2 = [v[:] for v in matrice]
     n = 20+5*niveau
@@ -21,14 +25,8 @@ def matrice_jeu(matrice, niveau):
                 i+=1
     return matrice2
 
-'''
-Avant de supprimer une valeur avec matrice_jeu(), il faut vérifier que le Sudoku
-est toujours faisable et qu'il y a uniquement une seule solution,
-pour ne pas avoir de fausses mauvaisses réponses.
-'''
 
-
-# Cette fonction vérifie que la case 
+# Cette fonction vérifie que le nombre dans la case est valide
 def entre_valide(matrice, i, j, valeur):
     #3x3
     bloc_i = 3*(i//3)
@@ -50,7 +48,7 @@ def entre_valide(matrice, i, j, valeur):
     return True
 
 
-# Cette fonction est importante pour compter le nombre de solutions possibles
+# On compte le nombre de solutions possibles
 # Récurrence qui vérifie toutes les branches et compte le nombre de branches valides
 # Revient en arrière avec : matrice3[i][j] = ""
 def matrice_valide(matrice):
@@ -81,17 +79,24 @@ def matrice_valide(matrice):
     return compteur == 1
 
 
-def x_y_to_valeur(x,y,valeur, matrice): #On place la valeur dans la liste
+def x_y_to_valeur(x,y,valeur, matrice): # On place la valeur dans la liste
     matrice[3*(y//3)+(x//3)][3*(y%3)+(x%3)] = valeur
 
 
 def matrice(niveau):
     matrice_temp1 = (generation_jeu.generer_grille())
-    # On passe en une liste de sous listes # Note : essayer de faire sans
+
+    # On passe en une liste de sous listes
     matrice_temp2=[matrice_temp1[i][j] for i in range(3) for j in range(3)]
-    # On pace en listes de sous listes mais dans un ordre plus simple avec (x, y)
+
+    # Passe de listes de (3x3) à des coordonnées (x, y)
     matrice = [['']*9 for i in range(9)]
     for i in range(9):
         for j in range(9):
             x_y_to_valeur(j, i, matrice_temp2[i][j], matrice)
+
     return (matrice, matrice_jeu(matrice, niveau))
+
+    # On a donc un tuple avec :
+    # - Solution
+    # - Matrice utilisée en jeu et appelée par tous les autres fichiers
