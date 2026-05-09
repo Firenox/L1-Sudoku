@@ -1,4 +1,4 @@
-<center><h1>L1-Sudoku</h1></center>
+# L1-Sudoku
 ## Informations du groupe
 ### MI TD-03
 ### Nom des étudiants du groupe
