@@ -20,7 +20,12 @@ def sauvegarder(nombre_erreur, compteur_aide, temps, matrice_originale, fini):
 
 
 def ouvrir(): # On a vu comment sauvegarder mais pas comment lire. Source : https://www.geeksforgeeks.org/python/json-load-in-python/
-    sauvegarde = open("sauvegarde.json", "r")
+    # Try et Except essentiels pour pas d'erreur si vide, Source : https://www.docstring.fr/formations/faq/resolution-derreurs/que-signifie-une-erreur-de-type-filenotfounderror/
+    try :
+        sauvegarde = open("sauvegarde.json", "r")
+    except FileNotFoundError :
+        return None
+
     save = json.load(sauvegarde)
     sauvegarde.close()
     return save

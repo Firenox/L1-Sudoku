@@ -23,8 +23,31 @@ frame_chiffres = None # la ou les bouton en bas du sudoku sont stockée (en gros
 temps = 0
 fini = False
 jeu_importe = None
-
+case_probleme = None
+case_bleu = None
 diff = "Moyen"
+
+
+def entre_valide(i, j, valeur):
+    #3x3
+    bloc_i = 3*(i//3)
+    bloc_j = 3*(j// 3)
+    for k in range(3):
+        for l in range(3):
+            if etat_de_jeu.matrice[1][bloc_i + k][bloc_j + l] == valeur:
+                return ((bloc_i + k, bloc_j + l))
+    
+    #ligne
+    for x in range(9):
+        if valeur == etat_de_jeu.matrice[1][i][x]:
+            return ((i,x))
+
+    #colonne
+    for y in range(9):
+        if etat_de_jeu.matrice[1][y][j] == valeur:
+            return ((y,j))
+    
+    return None
 
 
 def clear_window():    #permet la transition entre chaque fenêtre
@@ -93,7 +116,10 @@ def menu_difficulter():
 
 
 def lancer_sudoku(niveau):  
-    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide, temps, jeu_importe
+    global solution, grille, diff, matrice_originale, heure_debut, nombre_erreur , compteur_aide, temps, jeu_importe, case_probleme, case_bleu
+
+    case_probleme = None
+    case_bleu = None
 
     if jeu_importe == None :
         etat_de_jeu.creer_matrice(niveau)
@@ -179,12 +205,14 @@ def afficher_sudoku():
 
 
     def choisir_chiffre(valeur):
-        global selected_cell, frame_chiffres, nombre_erreur
-
+        global selected_cell, frame_chiffres, nombre_erreur, case_probleme, case_bleu
         if not selected_cell:
             return
 
         case, row, col = selected_cell
+
+        # Coordonnées de la case qui cause l'erreur
+        case_probleme = entre_valide(row, col, valeur) # Avant de rentrer la valeur dans le Sudoku juste en dessous
 
         case.config(text=str(valeur))
         grille[row][col] = valeur
@@ -198,6 +226,12 @@ def afficher_sudoku():
             if valeur_correcte(row, col, valeur):
                 case.config(bg="lightgreen")
             else:
+                # Case qui causse l'erreur suite du code
+                if case_bleu != None :
+                    case_bleu.config(bg="white") # On enlève l'ancien bleu
+                case_bleu = cases[case_probleme] # Entrée Valide renvoie un tuple (x, y)
+                case_bleu.config(bg="lightblue") 
+
                 case.config(bg="red")
                 nombre_erreur += 1
 
@@ -269,12 +303,18 @@ def afficher_sudoku():
     save.pack()
 
 def utiliser_aide():
+    global case_bleu, case_probleme
+    case_bleu = None
+    case_probleme = None
     global compteur_aide
 
     compteur_aide += 1
 
 def ouvrir_aide_forte():
-
+    global case_bleu, case_probleme
+    case_bleu = None
+    case_probleme = None
+    
     fenetre = tk.Toplevel(root)
     fenetre.title("Choisir un chiffre")
 
@@ -342,20 +382,21 @@ def importer_jeu():
     global jeu_importe, nombre_erreur, temps, compteur_aide, matrice_originale, fini, heure_debut
     jeu_importe = sauvegardes.ouvrir()
 
-    etat_de_jeu.creer_matrice(1) # On crée le tuple matrice pour pouvoir le remplacer avec les lignes du dessous
-    if jeu_importe[6] == True : # Si on a sauvegardé une matrice finie
-        etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[5])
+    if jeu_importe != None :
+        etat_de_jeu.creer_matrice(1) # On crée le tuple matrice pour pouvoir le remplacer avec les lignes du dessous
+        if jeu_importe[6] == True : # Si on a sauvegardé une matrice finie
+            etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[5])
 
-    else :                      # Sinon, on recommence et on créer un nouveau tuple
-        etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[1]) # Le premier = matrice originale
+        else :                      # Sinon, on recommence et on créer un nouveau tuple
+            etat_de_jeu.matrice = (jeu_importe[0] , jeu_importe[1]) # Le premier = matrice originale
 
-    nombre_erreur = jeu_importe[2]
-    compteur_aide = jeu_importe[3]
-    temps = jeu_importe[4]
-    matrice_originale = jeu_importe[5]
-    fini = False
+        nombre_erreur = jeu_importe[2]
+        compteur_aide = jeu_importe[3]
+        temps = jeu_importe[4]
+        matrice_originale = jeu_importe[5]
+        fini = False
 
-    lancer_sudoku(1)
+        lancer_sudoku(1)
 
 
 def defaite():
