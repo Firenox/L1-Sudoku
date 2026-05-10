@@ -2,9 +2,9 @@
 ## Informations du groupe
 ### MI TD-03
 ### Nom des étudiants du groupe
-- Sylvain Mahut
-- Benjamin Yi
-- Vahé  Baghdasaryan
+- [Sylvain Mahut](https://github.com/Senzzin)
+- [Benjamin Yi](https://github.com/looloo5876-spec)
+- [Vahé Baghdasaryan](https://github.com/Firenox)
 ## URL du dépot
 [GitHub | Firenox/L1-Sudoku](https://github.com/Firenox/L1-Sudoku)
 
