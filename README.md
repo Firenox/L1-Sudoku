@@ -18,3 +18,5 @@ print(etat_de_jeu.matrice[0])
 
 ## Problèmes qui n'ont pas été résolues
 Le mode de jeu moyen n'a pas d'avertissements si on se trompe
+
+2026
